@@ -14,18 +14,17 @@ RUN apt-get install -y openssh-client
 RUN apt-get install -y openssh-server
 RUN apt-get install -y sudo
 
-# add user
-RUN mkdir /home/user
-RUN if [ ! -d /run/sshd ]; then mkdir /run/sshd; fi
-RUN useradd -b /home -G sudo -p 'derparol' -s /bin/bash user
-RUN chown -R user:sudo /home/user
-RUN sync
-#RUN service ssh restart
+# some alias for shift
+RUN alias shift='shift $(( $# > 0 ? 1 : 0 ))' 
+
+#copy run script dest posotion
+COPY run.sh /root/run.sh
 
 # expose ssh port
- EXPOSE 22:2222
+EXPOSE 22:2222
 
 # enter to the user shell
+ENTRYPOINT ["/bin/bash", "-c", "/root/run.sh"]
 # CMD /bin/bash
 
 
