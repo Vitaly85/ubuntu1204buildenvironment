@@ -23,6 +23,7 @@ COPY run.sh /root/run.sh
 # expose ssh port
 EXPOSE 22:2222
 
+VOLUME ["/opt/git"]
 # enter to the user shell
 ENTRYPOINT ["/bin/bash", "-c", "/root/run.sh"]
 # CMD /bin/bash
