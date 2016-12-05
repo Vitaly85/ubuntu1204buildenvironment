@@ -8,7 +8,7 @@ Prepare:
   install docker(docker-io for ubuntu)
 
 Use:
-  docker build ubuntu1204buildenvironment/ - should retun a DOCKER_IMAGE_ID if build OK
+  docker build ubuntu1204buildenvironment/ - should return a DOCKER_IMAGE_ID if build OK
   docker run DOCKER_IMAGE_ID 
   ssh -p 2222 user@127.0.0.1
   or use docker run -i -t DOCKER_IMAGE_ID 
