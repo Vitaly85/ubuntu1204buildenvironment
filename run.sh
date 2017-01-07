@@ -8,29 +8,31 @@ echo User name: $USER
 echo Default password: $DEFAULT_PASSWORD
 echo "####################"
 echo "Creating user $USER.."
-if useradd -b /home -G sudo -s /bin/bash $USER
+if ! cat /etc/passwd | grep $USER 
 then
-    echo $USER created OK
-else
-    echo $USER creation ERROR
-    exit $?
-fi
+    if useradd -b /home -G sudo -s /bin/bash $USER
+    then
+        echo $USER created OK
+    else
+        echo $USER creation ERROR
+        exit $?
+    fi
+    if [ ! -f /home/$USER ]
+    then
+        mkdir /home/$USER && chown -R $user:sudo /home/$USER
+    fi
 
-if [ ! -f /home/$USER ]
-then
-    mkdir /home/$USER && chown -R $user:sudo /home/$USER
-fi
-
-
-if passwd $USER << EOF
-$DEFAULT_PASSWORD
-$DEFAULT_PASSWORD
+    if passwd $USER << EOF
+        $DEFAULT_PASSWORD
+        $DEFAULT_PASSWORD
 EOF
-then
-    echo The password are set OK
-else 
-    echo Password set ERROR!
-    exit $?
+    then
+        echo The password are set OK
+    else 
+        echo Password set ERROR!
+        exit $?
+    fi
+
 fi
 
 echo Starting ssh daemon...
